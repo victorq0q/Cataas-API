@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import requests
 from random import choice
 
@@ -6,7 +7,7 @@ try:
     check_api = requests.get("https://cataas.com/")
 except Exception as e:
     print(">> Cataas API erro <<")
-    print(e)
+    raise e
 
 API_URL = "https://cataas.com/cat" 
 
@@ -54,7 +55,7 @@ def Cat(tag=False, text=False, cat_type=False, img_filter=False, width=False, he
 	if heigth:
 	    params["heigth"] = heigth
 
-	resp = GetData(url_method=methods, params=params) #final url: https://cataas.com/{methods}?{params}
+	resp = GetData(url_method=methods, params=params) #final url exemple: https://cataas.com/{methods}?{params}
 	resp["url"] = "https://cataas.com" + resp["url"]
 
 	return resp
@@ -73,7 +74,23 @@ def Random(text=False, img_filter=False):
 	if img_filter in image_filter_list:
 	   params["filter"] = choice(image_filter_list)
 
-	resp = GetData(url_method=methods, params=params)
-	resp["url"] = "https://cataas.com" + resp["url"]
+	random_resp = GetData(url_method=methods, params=params)
+	random_resp["url"] = "https://cataas.com" + random_resp["url"]
 
-	return resp
+	return random_resp
+
+
+def Download(cat_data):
+	if type(cat_data) == dict:
+		if "file" in cat_data and "url" in cat_data: #check if filename and url exist
+
+			file_name = cat_data["file"]
+			url = cat_data["url"]
+
+			with open(file_name, "wb") as new:
+				new.write(requests.get(url).content)
+
+		else:
+			print("Cataas api\n Data not found, unable to save the file")
+	else:
+		print("Cataas api\n argument is of type dictionary, unable to save the file")
