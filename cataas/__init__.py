@@ -1,12 +1,12 @@
-# -*- coding: utf-8 -*-
 import requests
 from random import choice
 
 
+#check APi and internet connection
 try:
-    check_api = requests.get("https://cataas.com/")
+    requests.get("https://cataas.com/")
 except Exception as e:
-    print(">> Cataas API erro <<")
+    print(">> Cataas API request erro <<")
     raise e
 
 API_URL = "https://cataas.com/cat" 
@@ -14,14 +14,14 @@ API_URL = "https://cataas.com/cat"
 cat_type_list =  ["small", "sm", "medium", "md", "square","sq", "original","or"]
 image_filter_list = ["blur", "mono", "sepia", "negative", "paint", "pixel"]
 
-tag_list = requests.get("https://cataas.com/api/tags").json() 
+tag_list = requests.get("https://cataas.com/api/tags").json() #returns a list of all tags 
 
 
 def GetData(url_method="", params=None):
 	if not params:
-	   params = {"json": "true"}
-	elif type(params) == dict:
-	   params["json"] = "true"
+	   params = {"json": "true"} #add json parameter for api to return the data as json
+	elif type(params) == dict:    
+	   params["json"] = "true"   
 
 	data = requests.get(f"{API_URL}{url_method}", params=params)
 
