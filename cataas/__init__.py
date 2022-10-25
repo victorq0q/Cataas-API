@@ -91,6 +91,6 @@ def Download(cat_data):
 				new.write(requests.get(url).content)
 
 		else:
-			print("Cataas api\n Data not found, unable to save the file")
+		    print("Cataas api\n Data not found, unable to save the file")
 	else:
-		print("Cataas api\n argument is of type dictionary, unable to save the file")
+	    print("Cataas api\n argument is of type dictionary, unable to save the file")
