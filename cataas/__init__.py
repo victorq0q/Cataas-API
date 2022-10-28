@@ -17,7 +17,7 @@ image_filter_list = ["blur", "mono", "sepia", "negative", "paint", "pixel"]
 tag_list = requests.get("https://cataas.com/api/tags").json() #returns a list of all tags 
 
 
-def GetData(url_method="", params=None):
+def _get_data(url_method="", params=None):
 	if not params:
 	   params = {"json": "true"} #add json parameter for api to return the data as json
 	elif type(params) == dict:    
@@ -36,7 +36,7 @@ def GetData(url_method="", params=None):
 	    return data.json()
 
 
-def Cat(tag=False, text=False, cat_type=False, img_filter=False, width=False, heigth=False):
+def cat(tag=False, text=False, cat_type=False, img_filter=False, width=False, heigth=False):
 	methods = "" 
 	params = {}  
 							
@@ -55,13 +55,13 @@ def Cat(tag=False, text=False, cat_type=False, img_filter=False, width=False, he
 	if heigth:
 	    params["heigth"] = heigth
 
-	resp = GetData(url_method=methods, params=params) #final url exemple: https://cataas.com/{methods}?{params}
+	resp = _get_data(url_method=methods, params=params) #final url exemple: https://cataas.com/{methods}?{params}
 	resp["url"] = "https://cataas.com" + resp["url"]
 
 	return resp
 
 
-def Random(text=False, img_filter=False):
+def random(text=False, img_filter=False):
 	methods = ""
 	params = {}
 
@@ -74,13 +74,13 @@ def Random(text=False, img_filter=False):
 	if img_filter in image_filter_list:
 	   params["filter"] = choice(image_filter_list)
 
-	random_resp = GetData(url_method=methods, params=params)
+	random_resp = _get_data(url_method=methods, params=params)
 	random_resp["url"] = "https://cataas.com" + random_resp["url"]
 
 	return random_resp
 
 
-def Download(cat_data):
+def download(cat_data):
 	if type(cat_data) == dict:
 		if "file" in cat_data and "url" in cat_data: #check if filename and url exist
 
